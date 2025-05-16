@@ -36,38 +36,38 @@ find_package(SQLite3 REQUIRED)
 
 # Source files (explicitly listed)
 set(TIPPECANOE_SRC
-    geojson.cpp
-    jsonpull/jsonpull.c
-    tile.cpp
-    pool.cpp
-    mbtiles.cpp
-    geometry.cpp
-    projection.cpp
-    memfile.cpp
-    mvt.cpp
-    serial.cpp
-    platform.cpp
-    text.cpp
-    dirtiles.cpp
-    pmtiles_file.cpp
-    plugin.cpp
-    read_json.cpp
-    write_json.cpp
-    geobuf.cpp
-    flatgeobuf.cpp
-    evaluator.cpp
-    geocsv.cpp
-    csv.cpp
-    geojson-loop.cpp
-    json_logger.cpp
-    visvalingam.cpp
-    compression.cpp
-    clip.cpp
-    sort.cpp
-    attribute.cpp
-    thread.cpp
-    shared_borders.cpp
-    lxnav_wrapper.cpp
+    tippecanoe/geojson.cpp
+    tippecanoe/jsonpull/jsonpull.c
+    tippecanoe/tile.cpp
+    tippecanoe/pool.cpp
+    tippecanoe/mbtiles.cpp
+    tippecanoe/geometry.cpp
+    tippecanoe/projection.cpp
+    tippecanoe/memfile.cpp
+    tippecanoe/mvt.cpp
+    tippecanoe/serial.cpp
+    tippecanoe/platform.cpp
+    tippecanoe/text.cpp
+    tippecanoe/dirtiles.cpp
+    tippecanoe/pmtiles_file.cpp
+    tippecanoe/plugin.cpp
+    tippecanoe/read_json.cpp
+    tippecanoe/write_json.cpp
+    tippecanoe/geobuf.cpp
+    tippecanoe/flatgeobuf.cpp
+    tippecanoe/evaluator.cpp
+    tippecanoe/geocsv.cpp
+    tippecanoe/csv.cpp
+    tippecanoe/geojson-loop.cpp
+    tippecanoe/json_logger.cpp
+    tippecanoe/visvalingam.cpp
+    tippecanoe/compression.cpp
+    tippecanoe/clip.cpp
+    tippecanoe/sort.cpp
+    tippecanoe/attribute.cpp
+    tippecanoe/thread.cpp
+    tippecanoe/shared_borders.cpp
+    lxnav_wrapper.cpp # Wrapper is inside root folder
 )
 
 # Create static library
@@ -76,19 +76,20 @@ add_library(${PROJECT_NAME} STATIC ${TIPPECANOE_SRC})
 # Link system and found libraries
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        Threads::Threads
+        clipper2
+    PUBLIC
         ZLIB::ZLIB
         SQLite::SQLite3
-        clipper2
-        m
-    PUBLIC
-        tippecanoe
+        Threads::Threads
 )
 
 target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        tippecanoe
+        tippecanoe/jsonpull
     PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
-        $<INSTALL_INTERFACE:${PROJECT_NAME}>
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/>
+        $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
 
 # Optional installation
@@ -100,4 +101,5 @@ install(TARGETS ${PROJECT_NAME}
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/
         DESTINATION include/tippecanoe
         FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
+
 
