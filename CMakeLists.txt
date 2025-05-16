@@ -67,7 +67,7 @@ set(TIPPECANOE_SRC
     tippecanoe/attribute.cpp
     tippecanoe/thread.cpp
     tippecanoe/shared_borders.cpp
-    lxnav_wrapper.cpp # Wrapper is inside root folder
+    tippecanoe/main.cpp
 )
 
 # Create static library
